@@ -34,7 +34,16 @@ public class CodeconConsumer {
     }
 
     public void run() {
-        // TODO Implementar
+        consumer.subscribe(Arrays.asList(topic));
+
+        try {
+            while (keepConsuming) {
+                ConsumerRecords<String, String> events = consumer.poll  (Duration.ofSeconds(1));
+                events.forEach(event -> System.out.println(event));
+            }
+        } finally {
+            consumer.close();
+        }
     }
 
     public void shutdown() {
