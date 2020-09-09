@@ -40,7 +40,8 @@ public class CodeconProducer {
     }
 
     public Future<RecordMetadata> produce(String event) {
-        // TODO: Implementar
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic, "key", event);
+        return producer.send(producerRecord);
     }
 
     public void shutdown() {
