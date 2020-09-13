@@ -1,5 +1,10 @@
 # Workshop: Event-driven architecture with Kafka
 
+## Informações adicionais
+
+Este código foi desenvolvido durante a Codecon 2020 no Workshop ministrado
+pelo Alan Fachini.
+
 ## Dependências
 
 Para executar os exemplos de código desse repositório instale o OpenJDK 11 e
