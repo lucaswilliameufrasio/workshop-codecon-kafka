@@ -1,1 +1,11 @@
-// TODO Implementar
+{
+  "namespace": "codecon.avro",
+  "type": "record",
+  "name": "TransformedEvent",
+  "fields": [
+    {"name": "id", "type": "long"},
+    {"name": "title", "type": "string"},
+    {"name": "type", "type": "string"},
+    {"name": "author", "type": "string"}
+  ]
+}

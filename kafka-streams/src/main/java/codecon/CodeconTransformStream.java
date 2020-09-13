@@ -47,16 +47,44 @@ public class CodeconTransformStream {
 
     public void createTopics() {
         AdminClient client = AdminClient.create(props);
-
-        // TODO Implementar
+        
+        client.createTopics(List.of(
+                new NewTopic(inputTopic, inputTopicPartitions, inputTopicReplicationFactor),
+                new NewTopic(outputTopic, outputTopicPartitions, outputTopicReplicationFactor)
+        ));
 
         client.close();
+    }
+
+    private TransformedEvent buildTransformedEvent(Event event) {
+        // Event: "title::author"
+
+        String[] titleParts = event.getTitle().split("::");
+        String title = titleParts[0];
+        String author = titleParts[1];
+
+        return new TransformedEvent(event.getId(), title, author, event.getType());
+    }
+
+    private SpecificAvroSerde<TransformedEvent> buildAvrosSerde() {
+        Map<String, String> config = Map.of(
+                SCHEMA_REGISTRY_URL_CONFIG, props.getProperty("schema.registry.url")
+        );
+
+        SpecificAvroSerde<TransformedEvent> avro = new SpecificAvroSerde<>();
+        avro.configure(config, false);
+        return avro;
     }
 
     public Topology buildTopology() {
         StreamsBuilder builder = new StreamsBuilder();
 
-        // TODO Implementar
+        KStream<String, Event> inputStream = builder.stream(inputTopic);
+        KStream<String, TransformedEvent> outputStream = inputStream.map((key, value) ->
+                new KeyValue<>(key, buildTransformedEvent(value))
+        );
+
+        outputStream.to(outputTopic, Produced.with(Serdes.String(), buildAvrosSerde()));
 
         return builder.build();
     }
