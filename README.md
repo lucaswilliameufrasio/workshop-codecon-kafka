@@ -3,7 +3,9 @@
 ## Informações adicionais
 
 Este código foi desenvolvido durante a Codecon 2020 no Workshop ministrado
-pelo Alan Fachini.
+por Alan Fachini.
+
+O código original está aqui: https://github.com/magrathealabs/workshop-codecon-kafka
 
 ## Dependências
 
